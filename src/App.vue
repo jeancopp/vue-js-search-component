@@ -1,17 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+    <busca-informacoes 
+        @ao-selecionar='select' 
+        :url="montarUrl"
+        :inicial="elemento"
+        coluna="full_name"/>
+    {{elemento}}
+    
+    <busca-informacoes 
+        @ao-selecionar='select' 
+        :url="url" 
+        :inicial="elemento"
+        coluna="description"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import BuscaInformacoes from "./components/BuscaInformacoes.vue";
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    "busca-informacoes": BuscaInformacoes
+  },
+  data(){
+    return {
+      elemento : { full_name : "Selecionado", description: "selecionado "},
+      url : "https://api.github.com/search/repositories?q="
+    }
+  },
+  methods: {
+    select(elemento){
+      this.elemento = elemento;
+    },
+    montarUrl(valorBusca){
+      return `https://api.github.com/search/repositories?q=${escape(valorBusca)}`;
+    }
+
   }
 }
 </script>
