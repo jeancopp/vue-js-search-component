@@ -3,8 +3,10 @@
         :filterable="false" 
         :options="options" 
         @search="onSearch"
+
         :value="selecionado"
         @input="aoSelecionar"
+        
         :resetOnOptionsChange="true"
         >
         <template slot="no-options">
@@ -55,14 +57,13 @@ export default {
     },
     inicial: {
       type: Object,
-      required
     }
   },
   data() {
     return {
       options: [],
       selecionado: undefined,
-      nenhumItemSelecionado
+      nenhumItemSelecionado,
     };
   },
   methods: {
@@ -83,12 +84,17 @@ export default {
       this.search(loading, search, this);
     },
     aoSelecionar(elemento) {
-      this.selecionado = elemento;
-      this.$emit("ao-selecionar", elemento);
-    }
+      this.atualizarValor(elemento,this);
+    },
+    atualizarValor : lodash.debounce((elemento, vm) => {
+      vm.selecionado = elemento;
+      vm.$emit("ao-selecionar", elemento);
+    },350)
   },
-  created(){
-    
+  beforeMount(){
+    console.log(`b - ${JSON.stringify(this.selecionado)}`)
+    this.selecionado = new Object(this.inicial);
+    console.log(`c - ${JSON.stringify(this.selecionado)}`)
   },
   components: {
     vSelect

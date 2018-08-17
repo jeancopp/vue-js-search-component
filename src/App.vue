@@ -1,18 +1,14 @@
 <template>
   <div id="app">
     
+    {{elemento1}}
     <busca-informacoes 
-        @ao-selecionar='select' 
+        @ao-selecionar='select1' 
         :url="montarUrl"
-        :inicial="elemento"
+        :inicial="elemento1_inicial "
         coluna="full_name"/>
-    {{elemento}}
     
-    <busca-informacoes 
-        @ao-selecionar='select' 
-        :url="url" 
-        :inicial="elemento"
-        coluna="description"/>
+
   </div>
 </template>
 
@@ -25,13 +21,20 @@ export default {
   },
   data(){
     return {
-      elemento : { full_name : "Selecionado", description: "selecionado "},
+      elemento1_inicial : { full_name : "Selecionado", description: "selecionado "},
+      elemento1 : { full_name : "Selecionado", description: "selecionado "},
+      elemento2 : { full_name : "Selecionado", description: "selecionado "},
       url : "https://api.github.com/search/repositories?q="
     }
   },
   methods: {
-    select(elemento){
-      this.elemento = elemento;
+    select1(elemento){
+      console.log(`select1 - ${JSON.stringify(elemento)}`)
+      this.elemento1 = elemento;
+    },
+    select2(elemento){
+      console.log(`select2 - ${JSON.stringify(elemento)}`)
+      this.elemento2 = elemento;
     },
     montarUrl(valorBusca){
       return `https://api.github.com/search/repositories?q=${escape(valorBusca)}`;
